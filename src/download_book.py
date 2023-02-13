@@ -24,6 +24,11 @@ def get_book_meta_data(book_number: int = 2936) -> dict:
 def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
     title = title.replace(" ", '-').lower()
     title = title.replace(":", "")
+    title = title.replace("'", "")
+    title = title.replace('"', "")
+    title = title.replace('?', "")
+    title = title.replace('!', "")
+    title = title.replace('/', "-")
     base_url = "https://download.feedbooks.net/"
     download_url = base_url + "book/{0}.epub?filename={1}".format(book_number, title)
 
@@ -36,7 +41,7 @@ def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
 
 if __name__ == "__main__":
 
-    for id in range(36, 3001):
+    for id in range(3001, 3501):
         data = get_book_meta_data(book_number=id)
         if bool(data):
             title = data['metadata']['title']
