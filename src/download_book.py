@@ -1,3 +1,4 @@
+import re
 import requests
 
 
@@ -7,13 +8,22 @@ def get_book_meta_data(book_number: int = 2936) -> dict:
     book_url = base_url + "book/{0}".format(book_number)
 
     response = requests.get(url=book_url)
-    data = response.json()
+
+    text = response.text
+    match = re.search('Object not found', text)
+
+    if not match:
+        data = response.json()
+
+    else:
+        data = {}
 
     return data
 
 
 def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
     title = title.replace(" ", '-').lower()
+    title = title.replace(":", "")
     base_url = "https://download.feedbooks.net/"
     download_url = base_url + "book/{0}.epub?filename={1}".format(book_number, title)
 
@@ -26,11 +36,10 @@ def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
 
 if __name__ == "__main__":
 
-    ids_to_mine = [11, 12, 13]
-
-    for id in ids_to_mine:
+    for id in range(36, 3001):
         data = get_book_meta_data(book_number=id)
-        title = data['metadata']['title']
-        identifier = data['metadata']['identifier']
-        book_number = identifier.split('/')[4]
-        download_book(book_number=book_number, title=title)
+        if bool(data):
+            title = data['metadata']['title']
+            identifier = data['metadata']['identifier']
+            book_number = identifier.split('/')[4]
+            download_book(book_number=book_number, title=title)
