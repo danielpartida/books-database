@@ -26,7 +26,7 @@ def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
 
 if __name__ == "__main__":
 
-    ids_to_mine = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    ids_to_mine = [11, 12, 13]
 
     for id in ids_to_mine:
         data = get_book_meta_data(book_number=id)
