@@ -1,11 +1,11 @@
-from download_book import get_book_meta_data, download_book
+from os import listdir
+from os.path import isfile, join
 
+from upload_book import upload_book
 
 if __name__ == "__main__":
 
-    for id in range(11, 3001):
-        data = get_book_meta_data(book_number=id)
-        title = data['metadata']['title']
-        identifier = data['metadata']['identifier']
-        book_number = identifier.split('/')[4]
-        download_book(book_number=book_number, title=title)
+    path = "../db/"
+    files = [f for f in listdir(path) if isfile(join(path, f))]
+    for file in files:
+        upload_book(file_name=file)
