@@ -21,7 +21,7 @@ def get_book_meta_data(book_number: int = 2936) -> dict:
     return data
 
 
-def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
+def proces_book_title(title: str) -> str:
     title = title.replace(" ", '-').lower()
     title = title.replace(":", "")
     title = title.replace("'", "")
@@ -29,6 +29,13 @@ def download_book(book_number: int = 2936, title: str = "Romeo and Juliet"):
     title = title.replace('?', "")
     title = title.replace('!', "")
     title = title.replace('/', "-")
+    title = title.replace("*", '')
+
+    return title
+
+
+def download_book(book_number: int, title: str):
+    title = proces_book_title(title=title)
     base_url = "https://download.feedbooks.net/"
     download_url = base_url + "book/{0}.epub?filename={1}".format(book_number, title)
 
